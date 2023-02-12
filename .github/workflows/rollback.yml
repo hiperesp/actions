@@ -1,0 +1,29 @@
+---
+name: 'Rollback'
+
+on:
+  workflow_call:
+    secrets:
+      DOKKU_SSH_URL:
+        required: true
+      DOKKU_SSH_PRIVATE_KEY:
+        required: true
+
+jobs:
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Cloning repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      -
+        name: Production Deploy
+        uses: dokku/github-action@master
+        with:
+          git_remote_url: ${{ secrets.DOKKU_SSH_URL }}
+          ssh_private_key: ${{ secrets.DOKKU_SSH_PRIVATE_KEY }}
+          git_push_flags: --force
