@@ -35,7 +35,7 @@ jobs:
           echo "NEW_RELEASE_NOTES<<EOF_RELEASE_NOTES" >> $GITHUB_ENV
           echo "$(git log ${{ env.LATEST_RELEASE_TAG }}..HEAD --pretty=format:'%s')" >> $GITHUB_ENV
           echo "EOF_RELEASE_NOTES" >> $GITHUB_ENV
-          if [[ $NEW_RELEASE_TYPE == "chore" || $NEW_RELEASE_TYPE == "fix" || $NEW_RELEASE_TYPE == "patch" ]]; then
+          if [[ $NEW_RELEASE_TYPE == "fix" || $NEW_RELEASE_TYPE == "patch" ]]; then
             echo "NEW_RELEASE_VERSION_NUMBER=$(echo ${{ env.LATEST_RELEASE_TAG }} | awk -F. -v OFS=. '{$NF++; print}')" >> $GITHUB_ENV
           elif [[ $NEW_RELEASE_TYPE == "feat" || $NEW_RELEASE_TYPE == "feature" ]]; then
             echo "NEW_RELEASE_VERSION_NUMBER=$(echo ${{ env.LATEST_RELEASE_TAG }} | awk -F. -v OFS=. '{$NF=0; $(NF-1)++; print}')" >> $GITHUB_ENV
