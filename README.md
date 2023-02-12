@@ -12,6 +12,10 @@
 
 # Problemas conhecidos e soluções:
 
+### A action é executada com sucesso, mas não é criada a release e o deploy não é realizado.
+
+- Crie uma primeira release manualmente, no formato `x.y.z`, por exemplo, `0.0.0`.
+
 ### Erro "Resource not accessible by integration" ao criar uma release.
 - Acesse a página do repositório
 - Acesse a aba Settings
