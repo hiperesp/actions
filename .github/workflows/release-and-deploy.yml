@@ -40,7 +40,7 @@ jobs:
         run: |
           NEW_RELEASE_TYPE="${{ inputs.release-type }}"
           echo "NEW_RELEASE_NOTES<<EOF_RELEASE_NOTES" >> $GITHUB_ENV
-          if [[ ${{ env.LATEST_RELEASE_TAG }} == "0.0.0" ]]; then
+          if [[ "${{ env.LATEST_RELEASE_TAG }}" == "0.0.0" ]]; then
             echo "$(git log --pretty=format:'%s')" >> $GITHUB_ENV
           else
             echo "$(git log ${{ env.LATEST_RELEASE_TAG }}..HEAD --pretty=format:'%s')" >> $GITHUB_ENV
