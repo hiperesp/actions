@@ -32,7 +32,7 @@ jobs:
         name: Fix Latest Release Tag
         run: |
           LATEST_RELEASE_TAG="${{ env.LATEST_RELEASE_TAG }}"
-          if [[ -z "${env.LATEST_RELEASE_TAG// }" ]]; then
+          if [[ -z "${LATEST_RELEASE_TAG// }" ]]; then
             echo "LATEST_RELEASE_TAG=0.0.0" >> $GITHUB_ENV
           fi
       -
