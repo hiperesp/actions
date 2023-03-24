@@ -38,14 +38,18 @@ jobs:
       -
         name: Create Next Release Details
         run: |
-          NEW_RELEASE_TYPE="${{ inputs.release-type }}"
-          echo "NEW_RELEASE_NOTES<<EOF_RELEASE_NOTES" >> $GITHUB_ENV
+          NEW_RELEASE_NOTES=""
           if [[ "${{ env.LATEST_RELEASE_TAG }}" == "0.0.0" ]]; then
-            echo "$(git log --pretty=format:'%s')" >> $GITHUB_ENV
+            NEW_RELEASE_NOTES="$(git log --pretty=format:'%s')"
           else
-            echo "$(git log ${{ env.LATEST_RELEASE_TAG }}..HEAD --pretty=format:'%s')" >> $GITHUB_ENV
+            NEW_RELEASE_NOTES="$(git log ${{ env.LATEST_RELEASE_TAG }}..HEAD --pretty=format:'%s')"
           fi
+
+          echo "NEW_RELEASE_NOTES<<EOF_RELEASE_NOTES" >> $GITHUB_ENV
+          echo "$(NEW_RELEASE_NOTES)" >> $GITHUB_ENV
           echo "EOF_RELEASE_NOTES" >> $GITHUB_ENV
+          NEW_RELEASE_TYPE=$(git log ${{ env.LATEST_RELEASE_TAG }}..HEAD --pretty=format:'%s' | grep -E '#(release|feat|feature|fix|patch|chore)' | head -1 | cut -d '#' -f 2)
+
           if [[ $NEW_RELEASE_TYPE == "fix" || $NEW_RELEASE_TYPE == "patch" ]]; then
             echo "NEW_RELEASE_VERSION_NUMBER=$(echo ${{ env.LATEST_RELEASE_TAG }} | awk -F. -v OFS=. '{$NF++; print}')" >> $GITHUB_ENV
           elif [[ $NEW_RELEASE_TYPE == "feat" || $NEW_RELEASE_TYPE == "feature" ]]; then
