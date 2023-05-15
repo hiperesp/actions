@@ -96,7 +96,7 @@ jobs:
         name: Update Latest Branch
         if: ${{ env.NEW_RELEASE_VERSION_NUMBER != '0.0.0' }}
         run: |
-          git checkout latest
           git reset --hard "${{ env.NEW_RELEASE_VERSION_NUMBER }}"
+          git push --force --set-upstream origin latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
