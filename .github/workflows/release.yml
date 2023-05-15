@@ -72,6 +72,19 @@ jobs:
           draft: false
           prerelease: false
       -
+        name: Create Latest Branch
+        run: |
+          git fetch
+          if git show-ref --quiet refs/heads/latest; then
+            echo "Branch latest already exists."
+            git switch latest
+          else
+            echo "Creating branch latest."
+            git switch -c latest
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      -
         name: Update Latest Branch
         if: ${{ env.NEW_RELEASE_VERSION_NUMBER != '0.0.0' }}
         run: |
